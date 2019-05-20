@@ -479,8 +479,8 @@ body {
 .site-branding {
   border: 1px solid black;
   border-radius: 2px;
-  background-image: -webkit-gradient(linear, left top, right top, from(#659ddd), to(#98d6ff));
-  background-image: linear-gradient(to right, #659ddd, #98d6ff);
+  background-image: -webkit-gradient(linear, left top, right top, from(#8bb8ec), to(#bde5ff));
+  background-image: linear-gradient(to right, #8bb8ec, #bde5ff);
   width: 99%;
   padding: 5px;
   margin-left: auto;
@@ -492,8 +492,8 @@ body {
 .site-footer {
   border: 1px solid black;
   border-radius: 2px;
-  background-image: -webkit-gradient(linear, left top, right top, from(#659ddd), to(#98d6ff));
-  background-image: linear-gradient(to right, #659ddd, #98d6ff);
+  background-image: -webkit-gradient(linear, left top, right top, from(#8bb8ec), to(#bde5ff));
+  background-image: linear-gradient(to right, #8bb8ec, #bde5ff);
   padding: 14px;
   width: 99%;
   margin-left: auto;
@@ -1116,8 +1116,8 @@ a:hover, a:active {
   width: 92%;
   border: 1px solid black;
   border-radius: 2px;
-  background-image: -webkit-gradient(linear, left top, right top, from(#f7bfbf), to(#beeaff));
-  background-image: linear-gradient(to right, #f7bfbf, #beeaff);
+  background-image: -webkit-gradient(linear, left top, right top, from(#fcdede), to(#d3f0fd));
+  background-image: linear-gradient(to right, #fcdede, #d3f0fd);
   margin-left: auto;
   margin-right: auto;
   margin-top: 1px;
@@ -1150,8 +1150,8 @@ a:hover, a:active {
   padding: 4px;
   border: 1px solid black;
   border-radius: 2px;
-  background-image: -webkit-gradient(linear, left top, right top, from(#f7bfbf), to(#beeaff));
-  background-image: linear-gradient(to right, #f7bfbf, #beeaff);
+  background-image: -webkit-gradient(linear, left top, right top, from(#fcdede), to(#d3f0fd));
+  background-image: linear-gradient(to right, #fcdede, #d3f0fd);
 }
 
 .updated:not(.published) {
