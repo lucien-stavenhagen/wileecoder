@@ -531,8 +531,7 @@ body {
 
 .site-title,
 .site-description {
-  font-variant: small-caps;
-  text-shadow: -1px 0 1px white, 1px 0 white, 0 1px white, 0 -1px white;
+  text-transform: uppercase;
 }
 
 /* LS custom
