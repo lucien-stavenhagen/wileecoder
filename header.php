@@ -43,16 +43,19 @@
 				<p class="site-description"><?php echo $wileecoder_description; /* WPCS: xss ok. */ ?></p>
 			<?php endif; ?>
 		</div><!-- .site-branding -->
-
+		<?php 
+		$headermenu='mainmenu';
+		if (has_nav_menu($headermenu)){ ?>
 		<nav id="site-navigation" class="main-navigation">
 			<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'wileecoder' ); ?></button>
 			<?php
 			wp_nav_menu( array(
-				'theme_location' => 'mainmenu',
+				'theme_location' => $headermenu,
 				'menu_id'        => 'primary-menu',
 			) );
 			?>
 		</nav><!-- #site-navigation -->
+			<?php } ?>
 	</header><!-- #masthead -->
 
 	<div id="content" class="site-content">
