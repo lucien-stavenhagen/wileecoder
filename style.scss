@@ -627,7 +627,7 @@ body {
 
 .content-area{
 	width: $my-max-width;
-	padding: 7px;
+	padding: 5px;
 	@include borders(content);
 	overflow: auto;
 	margin-left: auto;
@@ -1113,9 +1113,14 @@ a:hover, a:active {
 }
 /* LS custom */
 
+.blog-container{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
 .one-column, .two-columns{
 	width: 100%;
-	display: block;
 	margin-bottom: 2px;
 	padding: 4px;
 	@include borders(redblue);
@@ -1345,8 +1350,7 @@ object {
 		margin-right: auto;		
 	}
 	.two-columns{
-		width: 49.3%;
-		display: inline-block;
+		width: 49.8%;
 		vertical-align: top;
 	}
 	.menu-toggle {

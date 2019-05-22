@@ -618,7 +618,7 @@ body {
 
 .content-area {
   width: 99%;
-  padding: 7px;
+  padding: 5px;
   border: 1px solid black;
   border-radius: 2px;
   background-image: -webkit-gradient(linear, left top, right top, from(#8bcde4), to(#cdf9ff));
@@ -1140,9 +1140,23 @@ a:hover, a:active {
 }
 
 /* LS custom */
+.blog-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
 .one-column, .two-columns {
   width: 100%;
-  display: block;
   margin-bottom: 2px;
   padding: 4px;
   border: 1px solid black;
@@ -1385,8 +1399,7 @@ object {
     margin-right: auto;
   }
   .two-columns {
-    width: 49.3%;
-    display: inline-block;
+    width: 49.8%;
     vertical-align: top;
   }
   .menu-toggle {
