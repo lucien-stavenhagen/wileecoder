@@ -803,7 +803,9 @@ textarea:focus {
 }
 
 select {
-  border: 1px solid #ccc;
+  border: 1px solid black;
+  border-radius: 2px;
+  background-image: none;
 }
 
 textarea {
