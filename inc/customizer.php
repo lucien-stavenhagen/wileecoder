@@ -1,37 +1,59 @@
 <?php
 
+/*
+* key value to use if an <optgroup> 
+* isn't wanted in the <select> list
+*/
+
+$dont_show="dont_show";
+
+/*
+* here we only specialize render_content
+* to implement 'fontselect' which does 
+* a little more than 'select' in WP_Customize_Control.
+* primarily, gives a <optgroup>
+* if the key in the outer array assigned to
+* $this->choices is $dont_show,
+* don't generate an <optgroup>
+*/
+
 if (class_exists('WP_Customize_Control')) {
    class WP_Customize_Font_Control extends WP_Customize_Control
    {
+      private function do_content(){
+         global $dont_show;
+         $input_id         = '_customize-input-' . $this->id;
+         $description_id   = '_customize-description-' . $this->id;
+         $describedby_attr = (!empty($this->description)) ? ' aria-describedby="' . esc_attr($description_id) . '" ' : '';
+         if (empty($this->choices)) {
+            return;
+         }
+         if (!empty($this->label)) { ?>
+         <label for="<?php echo esc_attr($input_id); ?>" class="customize-control-title"><?php echo esc_html($this->label); ?></label>
+         <?php 
+         } 
+         if (!empty($this->description)) { ?>
+         <span id="<?php echo esc_attr($description_id); ?>" class="description customize-control-description"><?php echo $this->description; ?></span>
+         <?php } ?>
+         <select id="<?php echo esc_attr($input_id); ?>" <?php echo $describedby_attr; ?> <?php $this->link(); ?>>
+         <?php
+            foreach ($this->choices as $group_label => $font_arr){ 
+               if ($group_label !== $dont_show) {?> 
+               <optgroup label="<?php echo $group_label; ?>">
+               <?php }
+               foreach ($font_arr as $value => $label) {
+                  echo '<option value="' . esc_attr($value) . '"' . selected($this->value(), $value, false) . '>' . $label . '</option>';
+               }
+            }
+            if ($group_label !== $dont_show) { ?></optgroup> <?php } ?>
+         </select>
+         <?php
+      }
       public function render_content()
       {
          switch ($this->type) {
             case 'fontselect':
-               $input_id         = '_customize-input-' . $this->id;
-               $description_id   = '_customize-description-' . $this->id;
-               $describedby_attr = (!empty($this->description)) ? ' aria-describedby="' . esc_attr($description_id) . '" ' : '';
-               if (empty($this->choices)) {
-                  return;
-               }
-               if (!empty($this->label)) { ?>
-               <label for="<?php echo esc_attr($input_id); ?>" class="customize-control-title"><?php echo esc_html($this->label); ?></label>
-               <?php 
-               } 
-               if (!empty($this->description)) { ?>
-               <span id="<?php echo esc_attr($description_id); ?>" class="description customize-control-description"><?php echo $this->description; ?></span>
-               <?php 
-               } 
-               ?>
-               <select id="<?php echo esc_attr($input_id); ?>" <?php echo $describedby_attr; ?> <?php $this->link(); ?>>
-                  <optgroup label="Default System Fonts">
-                  <?php
-                  foreach ($this->choices as $value => $label) {
-                     echo '<option value="' . esc_attr($value) . '"' . selected($this->value(), $value, false) . '>' . $label . '</option>';
-                  }
-                  ?>
-                  </optgroup>
-               </select>
-               <?php
+               $this->do_content();
                break;
             default:
                parent::render_content();
@@ -41,7 +63,21 @@ if (class_exists('WP_Customize_Control')) {
    }  
 }
 
+/*
+* LS custom
+* do data-driven configuration of the font
+* drop down <optgroup>'s and <options>.
+* the outer array is the optgroup with the label
+* as the key. The value is the array with the 
+* font-family, font-style, etc. CSS values as keys
+* and the labels for the <otion> tags. See
+* do_content()
+* if the key in the outer array is $dont_show,
+* don't generate an <optgroup>
+*/
+
 $fonts_arr = array(
+   __('Default System Fonts') => array(
    'cursive, sans-serif'   => __('Cursive'),
    'Courier, Lucida Console, monospace' => __('Courier'),
    'Lucida Console, Courier, monospace' => __('Lucida Console'),
@@ -52,11 +88,16 @@ $fonts_arr = array(
    'Arial, Helvetica, Verdana sans-serif' => __('Arial'),
    'Helvetica, Verdana, Arial, sans-serif' => __('Helvetica'),
    'fantasy, sans-serif' => __('Fantasy'),
+   ),
+   __('Google Fonts') => array()
 );
+
 $style_arr = array(
-   'normal' => 'Normal',
-   'italic' => 'Italic',
-   'oblique' => 'Oblique'
+   __($dont_show) => array(
+   'normal' => __('Normal'),
+   'italic' => __('Italic'),
+   'oblique' => __('Oblique')
+   )
 );
 
 function register($wp_customize)
