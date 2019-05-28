@@ -1,55 +1,192 @@
 <?php
-/**
- * wileecoder Theme Customizer
- *
- * @package wileecoder
- */
 
-/**
- * Add postMessage support for site title and description for the Theme Customizer.
- *
- * @param WP_Customize_Manager $wp_customize Theme Customizer object.
- */
-function wileecoder_customize_register( $wp_customize ) {
-	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
-	$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
-	$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
-
-	if ( isset( $wp_customize->selective_refresh ) ) {
-		$wp_customize->selective_refresh->add_partial( 'blogname', array(
-			'selector'        => '.site-title a',
-			'render_callback' => 'wileecoder_customize_partial_blogname',
-		) );
-		$wp_customize->selective_refresh->add_partial( 'blogdescription', array(
-			'selector'        => '.site-description',
-			'render_callback' => 'wileecoder_customize_partial_blogdescription',
-		) );
-	}
-}
-add_action( 'customize_register', 'wileecoder_customize_register' );
-
-/**
- * Render the site title for the selective refresh partial.
- *
- * @return void
- */
-function wileecoder_customize_partial_blogname() {
-	bloginfo( 'name' );
-}
-
-/**
- * Render the site tagline for the selective refresh partial.
- *
- * @return void
- */
-function wileecoder_customize_partial_blogdescription() {
-	bloginfo( 'description' );
+if (class_exists('WP_Customize_Control')) {
+   class WP_Customize_Font_Control extends WP_Customize_Control
+   {
+      public function render_content()
+      {
+         switch ($this->type) {
+            case 'fontselect':
+               $input_id         = '_customize-input-' . $this->id;
+               $description_id   = '_customize-description-' . $this->id;
+               $describedby_attr = (!empty($this->description)) ? ' aria-describedby="' . esc_attr($description_id) . '" ' : '';
+               if (empty($this->choices)) {
+                  return;
+               }
+               if (!empty($this->label)) { ?>
+               <label for="<?php echo esc_attr($input_id); ?>" class="customize-control-title"><?php echo esc_html($this->label); ?></label>
+               <?php 
+               } 
+               if (!empty($this->description)) { ?>
+               <span id="<?php echo esc_attr($description_id); ?>" class="description customize-control-description"><?php echo $this->description; ?></span>
+               <?php 
+               } 
+               ?>
+               <select id="<?php echo esc_attr($input_id); ?>" <?php echo $describedby_attr; ?> <?php $this->link(); ?>>
+                  <optgroup label="Default System Fonts">
+                  <?php
+                  foreach ($this->choices as $value => $label) {
+                     echo '<option value="' . esc_attr($value) . '"' . selected($this->value(), $value, false) . '>' . $label . '</option>';
+                  }
+                  ?>
+                  </optgroup>
+               </select>
+               <?php
+               break;
+            default:
+               parent::render_content();
+               break;
+         }
+      }
+   }  
 }
 
-/**
- * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
- */
-function wileecoder_customize_preview_js() {
-	wp_enqueue_script( 'wileecoder-customizer', get_template_directory_uri() . '/js/customizer.js', array( 'customize-preview' ), '20151215', true );
+$fonts_arr = array(
+   'cursive, sans-serif'   => __('Cursive'),
+   'Courier, Lucida Console, monospace' => __('Courier'),
+   'Lucida Console, Courier, monospace' => __('Lucida Console'),
+   'Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono"' => __('Monaco'),
+   '"Times New Roman", Times, Georgia, serif' => __('Times New Roman'),
+   'Georgia, "Times New Roman", Times, serif' => __('Georgia'),
+   'Verdana, Arial, Helvetica, sans-serif' => __('Verdana'),
+   'Arial, Helvetica, Verdana sans-serif' => __('Arial'),
+   'Helvetica, Verdana, Arial, sans-serif' => __('Helvetica'),
+   'fantasy, sans-serif' => __('Fantasy'),
+);
+$style_arr = array(
+   'normal' => 'Normal',
+   'italic' => 'Italic',
+   'oblique' => 'Oblique'
+);
+
+function register($wp_customize)
+{
+   global $fonts_arr;
+   global $style_arr;
+   //1. Define a new section (if desired) to the Theme Customizer
+   $wp_customize->add_section(
+      'wileecoder_options',
+      array(
+         'title'       => __('Fonts', 'wileecoder'), //Visible title of section
+         'priority'    => 35, //Determines what order this appears in
+         'capability'  => 'edit_theme_options', //Capability needed to tweak
+         'description' => __('Allows you to set main font for body.', 'wileecoder'), //Descriptive tooltip
+      )
+   );
+
+   //2. Register new settings to the WP database...
+   $wp_customize->add_setting(
+      'font_ff', //No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
+      array(
+         'default'    => 'sans-serif', //Default setting/value to save
+         'type'       => 'theme_mod', //Is this an 'option' or a 'theme_mod'?
+         'capability' => 'edit_theme_options', //Optional. Special permissions for accessing this setting.
+         'transport'  => 'refresh', //What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
+      )
+   );
+
+   //3. Finally, we define the control itself (which links a setting to a section and renders the HTML controls)...
+   //$wp_customize->add_control( new WP_Customize_Control( //Instantiate the color control class
+   $wp_customize->add_control(new WP_Customize_Font_Control( //Instantiate the color control class
+      $wp_customize, //Pass the $wp_customize object (required)
+      'wileecoder_font_family', //Set a unique ID for the control
+      array(
+         'label'      => __('Font Family', 'wileecoder'), //Admin-visible name of the control
+         'settings'   => 'font_ff', //Which setting to load and manipulate (serialized is okay)
+         'priority'   => 10, //Determines the order this control appears in for the specified section
+         'section'    => 'wileecoder_options', //ID of the section this control should render in (can be one of yours, or a WordPress default section)
+         'type'       => 'fontselect',
+         'choices'    => $fonts_arr
+      )
+   ));
+   //4. Register next settings to the WP database...
+   $wp_customize->add_setting(
+      'font_fstyle', //No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
+      array(
+         'default'    => 'normal', //Default setting/value to save
+         'type'       => 'theme_mod', //Is this an 'option' or a 'theme_mod'?
+         'capability' => 'edit_theme_options', //Optional. Special permissions for accessing this setting.
+         'transport'  => 'refresh', //What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
+      )
+   );
+
+   //5. Finally, we define the control itself (which links a setting to a section and renders the HTML controls)...
+   //$wp_customize->add_control( new Menu_Dropdown_Custom_control( //Instantiate the color control class
+   $wp_customize->add_control(new WP_Customize_Font_Control( //Instantiate the color control class
+      $wp_customize, //Pass the $wp_customize object (required)
+      'wileecoder_font_style', //Set a unique ID for the control
+      array(
+         'label'      => __('Font Style', 'wileecoder'), //Admin-visible name of the control
+         'settings'   => 'font_fstyle', //Which setting to load and manipulate (serialized is okay)
+         'priority'   => 15, //Determines the order this control appears in for the specified section
+         'section'    => 'wileecoder_options', //ID of the section this control should render in (can be one of yours, or a WordPress default section)
+         'type'       => 'fontselect',
+         'choices'    => $style_arr
+      )
+   ));
 }
-add_action( 'customize_preview_init', 'wileecoder_customize_preview_js' );
+
+/**
+ * This will output the custom WordPress settings to the live theme's WP head.
+ * 
+ * Used by hook: 'wp_head'
+ * 
+ * @see add_action('wp_head',$func)
+ * @since wileecoder 1.0
+ */
+
+function header_output()
+{
+   ?>
+   <!--Customizer CSS-->
+   <style type="text/css">
+      <?php 
+      generate_css('body', 'font-family', 'font_ff');
+      generate_css('body', 'font-style', 'font_fstyle');
+      ?>
+   </style>
+   <!--/Customizer CSS-->
+<?php
+}
+
+
+/**
+ * This will generate a line of CSS for use in header output. If the setting
+ * ($mod_name) has no defined value, the CSS will not be output.
+ * 
+ * @uses get_theme_mod()
+ * @param string $selector CSS selector
+ * @param string $style The name of the CSS *property* to modify
+ * @param string $mod_name The name of the 'theme_mod' option to fetch
+ * @param string $prefix Optional. Anything that needs to be output before the CSS property
+ * @param string $postfix Optional. Anything that needs to be output after the CSS property
+ * @param bool $echo Optional. Whether to print directly to the page (default: true).
+ * @return string Returns a single line of CSS with selectors and a property.
+ * @since wileecoder 1.0
+ */
+
+function generate_css($selector, $style, $mod_name, $prefix = '', $postfix = '', $echo = true)
+{
+   $return = '';
+   $mod = get_theme_mod($mod_name);
+   if (!empty($mod)) {
+      $return = sprintf(
+         '%s { %s:%s; }',
+         $selector,
+         $style,
+         $prefix . $mod . $postfix
+      );
+      if ($echo) {
+         echo $return;
+      }
+   }
+   return $return;
+}
+
+// Setup the Theme Customizer settings and controls...
+add_action('customize_register', 'register');
+
+// Output custom CSS to live site
+add_action('wp_head', 'header_output');
+
+?>
