@@ -74,10 +74,12 @@ if (class_exists('WP_Customize_Control')) {
 * do_content()
 * if the key in the outer array is $dont_show,
 * don't generate an <optgroup>
+* default system font list found at:
+* https://devhints.io/css-system-font-stack
 */
-
 $fonts_arr = array(
-   __('Default System Fonts') => array(
+   __('System Fonts') => array(
+   '-apple-system, BlinkMacSystemFont,"Segoe UI", "Roboto", "Oxygen","Ubuntu", "Cantarell", "Fira Sans","Droid Sans", "Helvetica Neue", sans-serif' => __('Default System Font'),
    'cursive, sans-serif'   => __('Cursive'),
    'Courier, Lucida Console, monospace' => __('Courier'),
    'Lucida Console, Courier, monospace' => __('Lucida Console'),
