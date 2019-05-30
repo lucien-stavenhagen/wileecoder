@@ -1104,15 +1104,15 @@ a:hover, a:active {
 --------------------------------------------------------------*/
 /*
 * for sticky posts. Style the little note in the
-* blog listing for these
+* blog listing for these. Display inline block
+* so it doesn't span the whole enclosing tag
 */
 .sticky-post {
 	@include borders(highlight);
 	padding: 4px 7px;
-	margin: 0;
 	color: white;
+	display: inline-block;
 }
-
 .post,
 .page {
 	margin: 0 0 1.5em;
@@ -1130,6 +1130,7 @@ a:hover, a:active {
 	margin-bottom: 2px;
 	padding: 4px;
 	@include borders(redblue);
+	overflow: hidden;
 }
 
 .updated:not(.published) {
