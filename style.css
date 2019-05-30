@@ -1140,7 +1140,7 @@ a:hover, a:active {
   border-radius: 2px;
   background-image: -webkit-gradient(linear, left top, right top, from(#211e3a), to(#254f86));
   background-image: linear-gradient(to right, #211e3a, #254f86);
-  padding: 1px 5px;
+  padding: 4px 7px;
   margin: 0;
   color: white;
 }
