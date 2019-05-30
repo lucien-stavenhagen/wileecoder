@@ -342,8 +342,8 @@ function header_output()
       generate_css('.main-navigation', 'font-style','menu_font_style');
       generate_css('.footer-navigation', 'font-family','menu_font_family');
       generate_css('.footer-navigation', 'font-style','menu_font_style');
-      generate_css('button,input,optgroup,select,textarea', 'font-family','forms_font_family');
-      generate_css('button,input,optgroup,select,textarea', 'font-style','forms_font_style');
+      generate_css('button,input,optgroup,select,textarea,.sticky-post', 'font-family','forms_font_family');
+      generate_css('button,input,optgroup,select,textarea,.sticky-post', 'font-style','forms_font_style');
       ?>
    </style>
    <!--/Customizer CSS-->

@@ -1131,8 +1131,18 @@ a:hover, a:active {
 /*--------------------------------------------------------------
 ## Posts and pages
 --------------------------------------------------------------*/
-.sticky {
-  display: block;
+/*
+* for sticky posts. Style the little note in the
+* blog listing for these
+*/
+.sticky-post {
+  border: 1px solid black;
+  border-radius: 2px;
+  background-image: -webkit-gradient(linear, left top, right top, from(#211e3a), to(#254f86));
+  background-image: linear-gradient(to right, #211e3a, #254f86);
+  padding: 1px 5px;
+  margin: 0;
+  color: white;
 }
 
 .post,
