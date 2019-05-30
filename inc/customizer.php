@@ -261,7 +261,64 @@ function register($wp_customize)
          'choices'    => $menu_style_arr
       )
    ));
-   
+
+   //10. Register next settings to the WP database...
+   // setting for font style generally
+
+   $wp_customize->add_setting(
+      'forms_font_style', //No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
+      array(
+         'default'    => 'normal', //Default setting/value to save
+         'type'       => 'theme_mod', //Is this an 'option' or a 'theme_mod'?
+         'capability' => 'edit_theme_options', //Optional. Special permissions for accessing this setting.
+         'transport'  => 'refresh', //What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
+      )
+   );
+
+   //11. Finally, we define the control itself (which links a setting to a section and renders the HTML controls)...
+   // control for menu font style
+
+   $wp_customize->add_control(new WP_Customize_Font_Control( //Instantiate the color control class
+      $wp_customize, //Pass the $wp_customize object (required)
+      'wileecoder_forms_font_style', //Set a unique ID for the control
+      array(
+         'label'      => __('Forms Font Style', 'wileecoder'), //Admin-visible name of the control
+         'settings'   => 'forms_font_style', //Which setting to load and manipulate (serialized is okay)
+         'priority'   => 22, //Determines the order this control appears in for the specified section
+         'section'    => 'wileecoder_font_options', //ID of the section this control should render in (can be one of yours, or a WordPress default section)
+         'type'       => 'fontselect',
+         'choices'    => $menu_style_arr
+      )
+   ));
+   //12. Register next settings to the WP database...
+   // setting for forms font family generally
+
+   $wp_customize->add_setting(
+      'forms_font_family', //No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
+      array(
+         'default'    => 'normal', //Default setting/value to save
+         'type'       => 'theme_mod', //Is this an 'option' or a 'theme_mod'?
+         'capability' => 'edit_theme_options', //Optional. Special permissions for accessing this setting.
+         'transport'  => 'refresh', //What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
+      )
+   );
+
+   //13. Finally, we define the control itself (which links a setting to a section and renders the HTML controls)...
+   // control for forms font family
+
+   $wp_customize->add_control(new WP_Customize_Font_Control( //Instantiate the color control class
+      $wp_customize, //Pass the $wp_customize object (required)
+      'wileecoder_forms_font_family', //Set a unique ID for the control
+      array(
+         'label'      => __('Forms Font Family', 'wileecoder'), //Admin-visible name of the control
+         'settings'   => 'forms_font_family', //Which setting to load and manipulate (serialized is okay)
+         'priority'   => 20, //Determines the order this control appears in for the specified section
+         'section'    => 'wileecoder_font_options', //ID of the section this control should render in (can be one of yours, or a WordPress default section)
+         'type'       => 'fontselect',
+         'choices'    => $menu_fonts_arr
+      )
+   ));
+
 }
 
 /**
@@ -285,6 +342,8 @@ function header_output()
       generate_css('.main-navigation', 'font-style','menu_font_style');
       generate_css('.footer-navigation', 'font-family','menu_font_family');
       generate_css('.footer-navigation', 'font-style','menu_font_style');
+      generate_css('button,input,optgroup,select,textarea', 'font-family','forms_font_family');
+      generate_css('button,input,optgroup,select,textarea', 'font-style','forms_font_style');
       ?>
    </style>
    <!--/Customizer CSS-->
