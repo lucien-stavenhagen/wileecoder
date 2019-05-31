@@ -414,6 +414,8 @@ dfn, cite, em, i {
 
 blockquote {
   margin: 0 1.5em;
+  border-left: 2px gray solid;
+  padding-left: .5em;
 }
 
 address {
@@ -723,8 +725,14 @@ figure {
 }
 
 table {
-  margin: 0 0 1.5em;
+  border-collapse: collapse;
   width: 100%;
+}
+
+table th, td {
+  margin: 0 0 1.5em;
+  border: 1px solid black;
+  padding: 5px;
 }
 
 /*--------------------------------------------------------------
@@ -1200,24 +1208,16 @@ a:hover, a:active {
   text-align: left;
 }
 
-/* tables */
-.wp-block-table {
-  border-collapse: collapse;
-}
-
-.wp-block-table,
-.wp-block-table td,
-.wp-block-table th {
-  border: 1px solid black;
-  padding: 5px;
-}
-
-/* quotes and their citations */
-.wp-block-quote {
-  border-left: 2px gray solid;
-  padding-left: 5px;
-}
-
+/* tables 
+* block-specific styling
+* removed and placed on
+* table, th, td and blockquote for now. Let
+* the block table and blockquotes inherit that styling.
+* this way tables and blockquotes look right when
+* the classic editor is used and the block versions
+* mimic that for now.
+*/
+/* quote citations */
 .wp-block-quote cite,
 .wp-block-pullquote cite {
   font-size: .8em;
