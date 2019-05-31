@@ -659,8 +659,24 @@ body {
 * a element to stretch it to the inside
 * of the td cell. So when there's an a
 * tag, the whole cell's background can 
-* be set
+* be set.
+* also remove the borders now
+* inherited from styling on table
+* and center the navigation links
+* at bottom of calender
 */
+#wp-calendar tbody,
+#wp-calendar th,
+#wp-calendar tr,
+#wp-calendar td {
+  border: none;
+}
+
+#wp-calendar td#prev,
+#wp-calendar td#next {
+  text-align: center;
+}
+
 #wp-calendar tbody tr td {
   text-align: center;
   padding: 0;
