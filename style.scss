@@ -497,7 +497,17 @@ mark, ins {
 big {
 	font-size: 125%;
 }
-
+/*
+* LS hard-code the admin bar
+* for default system font
+* and normal font style. So the 
+* admin bar doesn't take on the
+* global font settings
+*/
+#wpadminbar{
+	font-family: -apple-system, BlinkMacSystemFont,"Segoe UI", "Roboto", "Oxygen","Ubuntu", "Cantarell", "Fira Sans","Droid Sans", "Helvetica Neue", sans-serif;
+	font-style: normal;
+}
 /*--------------------------------------------------------------
 # Elements
 --------------------------------------------------------------*/
