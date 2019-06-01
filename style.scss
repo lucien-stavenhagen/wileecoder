@@ -49,7 +49,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 /* LS custom variables*/
 
 $my-main-width: 92%;
-$my-max-width: 99%;
+$my-max-width: 100%;
 
 $gradient:(
 	header: linear-gradient(to right, rgb(139, 184, 236), rgb(189, 229, 255)),
@@ -636,6 +636,7 @@ body {
 }
 
 
+.no-sidebar .content-area,
 .content-area{
 	width: $my-max-width;
 	padding: 5px;
