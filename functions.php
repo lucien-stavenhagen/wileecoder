@@ -179,4 +179,22 @@ function twentysixteen_widget_tag_cloud_args( $args ) {
 	return $args;
 }
 add_filter( 'widget_tag_cloud_args', 'twentysixteen_widget_tag_cloud_args' );
+/**
+ * from https://developer.wordpress.org/reference/functions/the_excerpt/
+ * 
+ * Filter the "read more" excerpt string link to the post.
+ *
+ * @param string $more "Read more" excerpt string.
+ * @return string (Maybe) modified "read more" excerpt string.
+ */
+function wpdocs_excerpt_more( $more ) {
+    if ( ! is_single() ) {
+        $more = sprintf( '<span>... <a class="read-more" href="%1$s"><small>%2$s</small></a><span>',
+            get_permalink( get_the_ID() ),
+            __( 'Read more->', 'textdomain' )
+        );
+    }
+    return $more;
+}
+add_filter( 'excerpt_more', 'wpdocs_excerpt_more' );
 ?>
