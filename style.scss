@@ -635,7 +635,7 @@ body {
 	@include borders(content);
 }
 
-
+.single-post-wide,
 .no-sidebar .content-area,
 .content-area{
 	width: $my-max-width;

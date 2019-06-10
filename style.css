@@ -629,6 +629,7 @@ body {
   background-image: linear-gradient(to right, #8bcde4, #cdf9ff);
 }
 
+.single-post-wide,
 .no-sidebar .content-area,
 .content-area {
   width: 100%;
