@@ -45,11 +45,14 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 # Media
 	## Captions
 	## Galleries
+# LS author description styling
 --------------------------------------------------------------*/
 /* LS custom variables*/
 
 $my-main-width: 92%;
 $my-max-width: 100%;
+
+$general-padding: 5px;
 
 $gradient:(
 	header: linear-gradient(to right, rgb(139, 184, 236), rgb(189, 229, 255)),
@@ -530,7 +533,7 @@ body {
 .site-branding{
 	@include borders(header);
 	width: $my-max-width;
-	padding: 5px;
+	padding: $general-padding;
 	margin-left: auto;
 	margin-right: auto;
 	margin-bottom:1px;
@@ -639,7 +642,7 @@ body {
 .no-sidebar .content-area,
 .content-area{
 	width: $my-max-width;
-	padding: 5px;
+	padding: $general-padding;
 	@include borders(content);
 	overflow: auto;
 	margin-left: auto;
@@ -758,7 +761,7 @@ table th, td{
 	margin: 0 0 1.5em;
 	//width: 100%;
 	border: map-get($borderstyle, border);
-	padding: 5px;
+	padding: $general-padding;
 }
 
 /*--------------------------------------------------------------
@@ -1358,6 +1361,16 @@ object {
 	display: block;
 }
 
+
+/*--------------------------------------------------------------
+## LS custom Author description styling
+--------------------------------------------------------------*/
+
+.author .archive-description{
+	@include borders(redblue);
+	margin-bottom: 2px;
+	padding: $general-padding;
+}
 /* LS custom
 * move media queries to bottom
 * so anything that could go in it
